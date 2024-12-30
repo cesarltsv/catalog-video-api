@@ -1,3 +1,4 @@
+import { ValidateRules } from "../../shared/domain/validators/validator-rules";
 import { Uuid } from "../../shared/domain/values-objects/uuid.vo";
 
 export type CategoryConstructorProps= {
@@ -30,6 +31,7 @@ export class Category {
     }
 
     static create(props: CategoryCreateCommand) {
+        ValidateRules.shouldHasMinimumSize(props.name, "name");
         return new Category(props);
     }
 

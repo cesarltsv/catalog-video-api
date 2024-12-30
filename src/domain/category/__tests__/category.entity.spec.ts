@@ -1,4 +1,6 @@
+import { ValidateRules } from "../../../shared/domain/validators/validator-rules"
 import { Uuid } from "../../../shared/domain/values-objects/uuid.vo"
+import { DataExceptionError } from "../../Exceptions/data/data-exception-error"
 import { Category } from "../category.entity"
 
 describe("Domain - Category UnitTest", () => {
@@ -41,6 +43,8 @@ describe("Domain - Category UnitTest", () => {
             expect(category.isActive).toBe(input.isActive);
             expect(category.createdAt).toBeInstanceOf(Date);
         })
+
+        
     })
 
     describe("Create()", () => {
@@ -81,6 +85,14 @@ describe("Domain - Category UnitTest", () => {
             expect(category.description).toEqual(input.description);
             expect(category.isActive).toBe(input.isActive);
             expect(category.createdAt).toBeInstanceOf(Date);
+        })
+
+        test("Should throw error when name is to short", () => {
+            const input = {
+                name: "Mo",
+            }
+            const category = () => Category.create(input)
+            expect(category).toThrow(new DataExceptionError("name should has minimum of 5 character long."))
         })
 
         

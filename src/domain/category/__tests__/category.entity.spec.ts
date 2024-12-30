@@ -1,3 +1,4 @@
+import { Uuid } from "../../../shared/domain/values-objects/uuid.vo"
 import { Category } from "../category.entity"
 
 describe("Domain - Category UnitTest", () => {
@@ -7,7 +8,7 @@ describe("Domain - Category UnitTest", () => {
                 name: "Movie",
             }
             const category = new Category(input)
-            expect(category.categoryId).toBe("");
+            expect(category.categoryId).toBeInstanceOf(Uuid);
             expect(category.name).toEqual(input.name);
             expect(category.description).toBeNull();
             expect(category.isActive).toBeTruthy();
@@ -20,7 +21,7 @@ describe("Domain - Category UnitTest", () => {
                 description: "A description",
             }
             const category = new Category(input)
-            expect(category.categoryId).toBe("");
+            expect(category.categoryId).toBeInstanceOf(Uuid);
             expect(category.name).toEqual(input.name);
             expect(category.description).toEqual(input.description);
             expect(category.isActive).toBeTruthy();
@@ -34,7 +35,7 @@ describe("Domain - Category UnitTest", () => {
                 isActive: false
             }
             const category = new Category(input)
-            expect(category.categoryId).toBe("");
+            expect(category.categoryId).toBeInstanceOf(Uuid);
             expect(category.name).toEqual(input.name);
             expect(category.description).toEqual(input.description);
             expect(category.isActive).toBe(input.isActive);
@@ -48,7 +49,7 @@ describe("Domain - Category UnitTest", () => {
                 name: "Movie",
             }
             const category = Category.create(input)
-            expect(category.categoryId).toBe("");
+            expect(category.categoryId).toBeInstanceOf(Uuid);
             expect(category.name).toEqual(input.name);
             expect(category.description).toBeNull();
             expect(category.isActive).toBeTruthy();
@@ -61,7 +62,7 @@ describe("Domain - Category UnitTest", () => {
                 description: "A description",
             }
             const category = Category.create(input)
-            expect(category.categoryId).toBe("");
+            expect(category.categoryId).toBeInstanceOf(Uuid);
             expect(category.name).toEqual(input.name);
             expect(category.description).toEqual(input.description);
             expect(category.isActive).toBeTruthy();
@@ -75,11 +76,33 @@ describe("Domain - Category UnitTest", () => {
                 isActive: false
             }
             const category = Category.create(input)
-            expect(category.categoryId).toBe("");
+            expect(category.categoryId).toBeInstanceOf(Uuid);
             expect(category.name).toEqual(input.name);
             expect(category.description).toEqual(input.description);
             expect(category.isActive).toBe(input.isActive);
             expect(category.createdAt).toBeInstanceOf(Date);
+        })
+
+        
+        const arrange = [
+            {id: null}, {id: undefined}, {id: new Uuid()}
+        ]
+        test.each(arrange)("should create a valid Uuid when id = %j", ({ id }) => {
+            const input = {
+                name: "Movie",
+                description: "A description",
+                isActive: false,
+                categoryId: id
+            }
+            const category = Category.create(input)
+            expect(category.categoryId).toBeInstanceOf(Uuid);
+            expect(category.name).toEqual(input.name);
+            expect(category.description).toEqual(input.description);
+            expect(category.isActive).toBe(input.isActive);
+            expect(category.createdAt).toBeInstanceOf(Date);
+            if(input.categoryId instanceof Uuid) {
+                expect(category.categoryId).toEqual(input.categoryId);
+            }
         })
     })
 
@@ -163,7 +186,7 @@ describe("Domain - Category UnitTest", () => {
             }
             const category = Category.create(input);
             const json = category.toJson();
-            expect(json.categoryId).toBe("");
+            expect(json.categoryId).toBe(category.categoryId.id);
             expect(json.name).toBe(input.name);
             expect(json.createdAt).toBe(input.createdAt);
             expect(json.isActive).toBe(input.isActive);

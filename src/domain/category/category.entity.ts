@@ -1,5 +1,5 @@
 import { ValidateRules } from "../../shared/domain/validators/validator-rules";
-import { Uuid } from "../../shared/domain/values-objects/uuid.vo";
+import { Uuid } from "../../shared/domain/uuid/uuid.vo";
 
 export type CategoryConstructorProps= {
     categoryId?: Uuid;

@@ -1,7 +1,6 @@
-import { ValidateRules } from "../../../shared/domain/validators/validator-rules"
-import { Uuid } from "../../../shared/domain/values-objects/uuid.vo"
-import { DataExceptionError } from "../../Exceptions/data/data-exception-error"
-import { Category } from "../category.entity"
+import { Uuid } from "../../../src/shared/domain/uuid/uuid.vo"
+import { DataExceptionError } from "../../../src/domain/Exceptions/data/data-exception-error"
+import { Category } from "../../../src/domain/category/category.entity"
 
 describe("Domain - Category UnitTest", () => {
     describe("constructor()", () => {

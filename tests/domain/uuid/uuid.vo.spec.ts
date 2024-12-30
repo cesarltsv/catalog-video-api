@@ -1,5 +1,5 @@
-import { invalidUuidError, Uuid } from "../uuid.vo"
 import { validate as uuidValidate } from "uuid";
+import { invalidUuidError, Uuid } from "../../../src/shared/domain/uuid/uuid.vo";
 
 describe("Domain - Uuid UnitTest", () => {
 

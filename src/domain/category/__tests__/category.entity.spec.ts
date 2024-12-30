@@ -1,4 +1,4 @@
-import { Category } from "../entity/category.entity"
+import { Category } from "../category.entity"
 
 describe("Domain - Category UnitTest", () => {
     describe("constructor()", () => {

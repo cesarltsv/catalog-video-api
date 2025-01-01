@@ -1,6 +1,7 @@
 import { IRepository } from "../../../domain/interfaces/iRepository";
-import { Entity } from "../../domain/values-object/entity";
-import { ValueObject } from "../../domain/values-object/values-object";
+import { NotFoundError } from "../ErrorHandlers/notFoundError";
+import { Entity } from "../values-object/entity";
+import { ValueObject } from "../values-object/values-object";
 
 export abstract class MemoryRepository<E extends Entity, EntityId extends ValueObject> implements IRepository<E, EntityId> {
 
@@ -17,7 +18,7 @@ export abstract class MemoryRepository<E extends Entity, EntityId extends ValueO
     public async update(entity: E): Promise<void> {
         const indexItem = this.items.findIndex(item => item.getId.equals(entity.getId));
         if(indexItem  === -1) {
-            throw Error("Entity not found");
+            throw new NotFoundError(entity.getId, this.getEntity())
         };
         this.items[indexItem] = entity;
     }
@@ -25,7 +26,7 @@ export abstract class MemoryRepository<E extends Entity, EntityId extends ValueO
     public async delete(entityId: EntityId): Promise<void> {
         const indexItem = this.items.findIndex(item => item.getId.equals(entityId));
         if(indexItem  === -1) {
-            throw Error("Entity not found");
+            throw new NotFoundError(entityId, this.getEntity())
         };
         this.items.splice(indexItem, 1);
     }
@@ -35,7 +36,7 @@ export abstract class MemoryRepository<E extends Entity, EntityId extends ValueO
         return typeof item === "undefined" ? null : item;
     }
 
-    public async getAll(): Promise<any[]> {
+    public async getAll(): Promise<E[]> {
         return this.items;
     }
 

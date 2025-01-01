@@ -6,7 +6,7 @@ export interface IRepository<E extends Entity, EntityId extends ValueObject> {
     bulkInsert(entities: E[]): Promise<void>;
     update(entity: E): Promise<void>;
     delete(entityId: EntityId): Promise<void>;
-    findById(): Promise<E>;
+    findById(entityId: EntityId): Promise<E | null>;
     getAll(): Promise<E[]>;
     getEntity(): new (...args: any[]) => E;
 }

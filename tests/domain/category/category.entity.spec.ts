@@ -42,8 +42,6 @@ describe("Domain - Category UnitTest", () => {
             expect(category.isActive).toBe(input.isActive);
             expect(category.createdAt).toBeInstanceOf(Date);
         })
-
-        
     })
 
     describe("Create()", () => {
@@ -94,7 +92,40 @@ describe("Domain - Category UnitTest", () => {
             expect(category).toThrow(new DataExceptionError("name should has minimum of 5 character long."))
         })
 
-        
+        const generateString = (length: number) => {
+            let result = ''; 
+            for (let i = 0; i < length; i++) { 
+                result += Math.floor(Math.random() * 16).toString(16); 
+            } 
+            return result;
+        }
+
+        test("Should throw error when name is bigger then 255 character", () => {
+            const input = {
+                name: generateString(256)
+            }
+            const category = () => Category.create(input)
+            expect(category).toThrow(new DataExceptionError("name should not has more than 255."))
+        })
+
+        test("Should throw error when update name is to short", () => {
+            const input = {
+                name: "Movie",
+            }
+            const category = Category.create(input)
+            const action = () => category.changeName("ad")
+            expect(action).toThrow(new DataExceptionError("name should has minimum of 5 character long."))
+        })
+
+        test("Should throw error when description is bigger then 255 character", () => {
+            const input = {
+                name: "Generic name",
+                description: generateString(10001)
+            }
+            const category = () => Category.create(input)
+            expect(category).toThrow(new DataExceptionError("description should not has more than 10000."))
+        })
+
         const arrange = [
             {id: null}, {id: undefined}, {id: new Uuid()}
         ]

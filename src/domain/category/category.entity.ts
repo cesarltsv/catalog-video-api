@@ -28,27 +28,42 @@ export class Category {
         this.description = props.description ?? null;
         this.isActive = props.isActive ?? true;
         this.createdAt = props.createdAt ?? new Date();
+        Category.validate(this)
     }
 
     static create(props: CategoryCreateCommand) {
-        ValidateRules.shouldHasMinimumSize(props.name, "name");
-        return new Category(props);
+        var category = new Category(props);
+        Category.validate(category)
+        return category;
+    }
+
+    static validate(category: Category) {
+        ValidateRules.minLength(category.name, "name");
+        ValidateRules.maxLength(category.name, "name", 255);
+        if(category.description){
+            ValidateRules.maxLength(category.description, "description", 10000);
+        }
+        ValidateRules.emptyOrNull<Date>(category.createdAt, "createAt");
     }
 
     changeName(name: string): void {
         this.name = name;
+        Category.validate(this)
     }
 
     changeDescription(description: string): void {
         this.description = description;
+        Category.validate(this)
     }
 
     activate() {
         this.isActive = true;
+        Category.validate(this)
     }
 
     deactivate() {
         this.isActive = false;
+        Category.validate(this)
     }
 
     toJson(){

@@ -1,5 +1,5 @@
 import { NotFoundError } from "../../../src/shared/domain/ErrorHandlers/notFoundError";
-import { MemoryRepository } from "../../../src/shared/domain/memory/memory.repository";
+import { MemoryRepository } from "../../../src/infra/memory/memory.repository";
 import { Uuid } from "../../../src/shared/domain/uuid/uuid.vo";
 import { Entity } from "../../../src/shared/domain/values-object/entity";
 import { ValueObject } from "../../../src/shared/domain/values-object/values-object";
